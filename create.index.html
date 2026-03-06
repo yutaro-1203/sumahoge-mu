@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>ガチャゲーム</title>
+<style>
+body{
+    font-family: sans-serif;
+    text-align:center;
+    background:linear-gradient(135deg,#1e3c72,#2a5298);
+    color:white;
+    margin-top:100px;
+}
+
+h1{
+    font-size:40px;
+}
+
+button{
+    font-size:20px;
+    padding:15px 40px;
+    border:none;
+    border-radius:10px;
+    background:gold;
+    cursor:pointer;
+}
+
+button:hover{
+    background:orange;
+}
+
+#result{
+    margin-top:40px;
+    font-size:30px;
+    min-height:60px;
+}
+
+.spin{
+    animation:spin 1s linear;
+}
+
+@keyframes spin{
+    from{transform:rotate(0deg);}
+    to{transform:rotate(360deg);}
+}
+
+.common{color:#cccccc;}
+.rare{color:#66ccff;}
+.super{color:#cc66ff;}
+.ultra{color:#ffcc33;}
+.legend{color:#ff4444; font-weight:bold;}
+</style>
+</head>
+
+<body>
+
+<h1>🎰 ガチャゲーム</h1>
+
+<button onclick="gacha()">ガチャを引く</button>
+
+<div id="result"></div>
+
+<script>
+
+const characters = [
+{ name:"スライム", rarity:1 },
+{ name:"ゴブリン", rarity:1 },
+{ name:"騎士", rarity:2 },
+{ name:"魔法使い", rarity:2 },
+{ name:"ドラゴンナイト", rarity:3 },
+{ name:"大賢者", rarity:3 },
+{ name:"フェニックス", rarity:4 },
+{ name:"魔王", rarity:5 }
+];
+
+function gacha(){
+
+const result = document.getElementById("result");
+result.className="";
+result.innerHTML="ガチャ中...";
+result.classList.add("spin");
+
+setTimeout(()=>{
+
+const rand = Math.random()*100;
+let rarity;
+
+if(rand < 50) rarity=1;
+else if(rand < 75) rarity=2;
+else if(rand < 90) rarity=3;
+else if(rand < 98) rarity=4;
+else rarity=5;
+
+const pool = characters.filter(c=>c.rarity===rarity);
+const char = pool[Math.floor(Math.random()*pool.length)];
+
+let star = "★".repeat(rarity);
+
+let className = ["","common","rare","super","ultra","legend"][rarity];
+
+result.className = className;
+result.innerHTML = `${star}<br>${char.name} が出た！`;
+
+},1000);
+
+}
+
+</script>
+
+</body>
